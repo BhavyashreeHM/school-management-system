@@ -1,15 +1,31 @@
 package main
 
 import (
-	"fmt"
-	"net/http"
+	"log"
+	"myswiggyFoodDeliveryApplicaion/internal/health"
+	"myswiggyFoodDeliveryApplicaion/pkg/config"
+	"myswiggyFoodDeliveryApplicaion/pkg/database"
+
+	"github.com/gin-gonic/gin"
 )
 
-func app(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, " Hey🫡 Welcome to myswiggyFoodDeliveryApplicaion")
-}
-
 func main() {
-	http.HandleFunc("/", app)
-	http.ListenAndServe(":8080", nil)
+	cfg := config.Load()
+
+	db := database.ConnectDB(
+		cfg.DBUser,
+		cfg.DBPassword,
+		cfg.DBHost,
+		cfg.DBPort,
+		cfg.DBName,
+	)
+	defer db.Close()
+
+	r := gin.Default()
+
+	r.GET("/health", health.Check)
+
+	log.Println("Server running on port", cfg.AppPort)
+	r.Run(":" + cfg.AppPort)
+
 }
