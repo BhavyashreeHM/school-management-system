@@ -1,0 +1,23 @@
+protoc -I=proto --go_out=. --go-grpc_out=. proto/teachers.proto proto/students.proto proto/execs.proto 
+ /
+
+ gRPC in Go uses Protocol Buffers for defining services and messages, 
+and communicates over HTTP/2 to provide fast, strongly-typed, 
+and efficient RPC calls between services.
+
+protoc --go_out=. main.proto
+
+go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+
+nano ~/.zshrc
+export PATH="$PATH:$/home/bhavya_linux/go/bin"
+
+GOPATH='/home/bhavya_linux/go'
+
+go run greeter_client/main.go
+
+to run: 
+protoc --go_out=. --go-grpc_out=. user.proto
+
+protoc --go_out=. -I . --go-grpc_out=. proto/user.proto proto/greet.proto

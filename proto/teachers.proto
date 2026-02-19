@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+import "students.proto";
+package main;
+
+option go_package = "/proto/gen;pb";
+
+service TeachersService {
+    rpc GetTeachers(GetTeacherRequest) returns (Teachers);
+    rpc AddTeachers(Teachers) returns (Teachers);
+    rpc UpdateTeachers(Teachers) returns (Teachers);
+    rpc DeleteTeachers(TeacherIds) returns (DeleteteacherConfirmation);
+    rpc GetStudentsByClassTeachers(TeacherIds) returns (Students);
+    rpc GetStudentsCountByClassTeachers(TeacherIds) returns (StudentCount);
+
+}
+
+message Teacher {
+    string id = 1;
+    string first_name = 2;
+    string last_name = 3;
+    string email = 4;
+    string class = 5; 
+    string subject = 6;
+}
+
+message Teachers {
+    repeated Teacher teachers = 1;
+}  
+
+message GetTeacherRequest {
+    Teacher teacher = 1;
+    repeated SortField sort_by = 2;
+}
+
+message TeacherId {
+    string id = 1;
+}
+
+message TeacherIds {
+    repeated TeacherId ids = 1;
+}
+
+message DeleteteacherConfirmation {
+    string status = 1;
+    repeated string deleted_ids = 2;
+}
+
+message StudentCount{
+    bool status = 1;
+    int32 student_count = 2;
+}

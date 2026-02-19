@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"os"
 	"time"
 
 	"go.mongodb.org/mongo-driver/mongo"
@@ -11,11 +12,11 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/readpref"
 )
 
-func ConnectDB() (*mongo.Client, error) {
+func CreateMongoClient() (*mongo.Client, error) {
 
-	// uri := os.Getenv("MONGO_URI")
-	uri := "mongodb+srv://bhavyashreehm_db_user:XE9qMLOtFbNC3WUQ@cluster0.zz6aclj.mongodb.net/?appName=Cluster0"
-	fmt.Println(uri)
+	uri := os.Getenv("MONGO_URI")
+	// uri := "mongodb+srv://bhavyashreehm_db_user:XE9qMLOtFbNC3WUQ@cluster0.zz6aclj.mongodb.net/?appName=Cluster0"
+	// fmt.Println(uri)
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
@@ -29,6 +30,8 @@ func ConnectDB() (*mongo.Client, error) {
 	if err := client.Ping(context.TODO(), readpref.Primary()); err != nil {
 		log.Println(err)
 		panic(err)
+	}else{
+		fmt.Println("MongoDB Connected succesfully")
 	}
 	return client, nil
 
